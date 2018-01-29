@@ -1,4 +1,4 @@
-/*
+﻿/*
   This file is part of the PhantomJS project from Ofi Labs.
 
   Copyright (C) 2011 Ariya Hidayat <ariya.hidayat@gmail.com>
@@ -28,14 +28,14 @@
   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "phantom.h"
-#include "config.h"
-#include "cookiejar.h"
-
 #include <QDateTime>
 #include <QDataStream>
 #include <QSettings>
 #include <QTimer>
+
+#include "config.h"
+#include "cookiejar.h"
+#include "phantom.h"
 
 #define COOKIE_JAR_VERSION      1
 
@@ -197,7 +197,7 @@ bool CookieJar::addCookieFromMap(const QVariantMap& cookie, const QString& url)
                 QString datetime = expiresVar.toString().replace(" GMT", "");
                 expirationDate = QDateTime::fromString(datetime, "ddd, dd MMM yyyy hh:mm:ss");
             } else if (expiresVar.type() == QVariant::Double) {
-                // Set cookie expire date via "number of seconds since epoch"
+                // Set cookie expire date via "number of milliseconds since epoch"
                 // NOTE: Every JS number is a Double.
                 // @see http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-262.pdf
                 expirationDate = QDateTime::fromMSecsSinceEpoch(expiresVar.toLongLong());

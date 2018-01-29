@@ -1,4 +1,4 @@
-/*
+﻿/*
   This file is part of the PhantomJS project from Ofi Labs.
 
   Copyright (C) 2011 Ariya Hidayat <ariya.hidayat@gmail.com>
@@ -28,13 +28,9 @@
   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef TERMINAL_H
-#define TERMINAL_H
-
+#pragma once
 #include <QObject>
 #include <QString>
-#include <ostream>
-
 #include "encoding.h"
 
 class Terminal: public QObject
@@ -50,7 +46,7 @@ public:
     void cout(const QString& string, const bool newline = true) const;
     void cerr(const QString& string, const bool newline = true) const;
 
-signals:
+Q_SIGNALS:
     void encodingChanged(const QString& encoding);
 
 private:
@@ -60,5 +56,3 @@ private:
     Terminal();
     Encoding m_encoding;
 };
-
-#endif // TERMINAL_H

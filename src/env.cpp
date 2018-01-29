@@ -1,4 +1,4 @@
-/*
+﻿/*
   This file is part of the PhantomJS project from Ofi Labs.
 
   Copyright (C) 2012 execjosh, http://execjosh.blogspot.com
@@ -27,21 +27,19 @@
   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "env.h"
-
 #include <QCoreApplication>
 #include <QString>
 #include <QVariantMap>
 #include <QProcessEnvironment>
+#include "env.h"
 
-static Env* env_instance = NULL;
+static Env* env_instance = Q_NULLPTR;
 
 Env* Env::instance()
 {
-    if (NULL == env_instance) {
+    if (!env_instance) {
         env_instance = new Env();
     }
-
     return env_instance;
 }
 
@@ -49,7 +47,7 @@ Env::Env()
     : QObject(QCoreApplication::instance())
 {
     const QProcessEnvironment& env = QProcessEnvironment::systemEnvironment();
-    foreach(const QString & key, env.keys()) {
+    foreach(const QString& key, env.keys()) {
         m_map[key] = env.value(key);
     }
 }

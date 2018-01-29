@@ -1,11 +1,11 @@
-/*
-  This file is part of the PhantomJS project from Ofi Labs.
+﻿/* This file is part of the PhantomJS project from Ofi Labs.
 
   Copyright (C) 2011 Ariya Hidayat <ariya.hidayat@gmail.com>
   Copyright (C) 2011 Ivan De Marino <ivan.de.marino@gmail.com>
   Copyright (C) 2011 James Roe <roejames12@hotmail.com>
   Copyright (C) 2011 execjosh, http://execjosh.blogspot.com
   Copyright (C) 2012 James M. Greene <james.m.greene@gmail.com>
+  Copyright (c) 2018 pixiuPL
 
   Redistribution and use in source and binary forms, with or without
   modification, are permitted provided that the following conditions are met:
@@ -31,56 +31,51 @@
   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-phantom.__defineErrorSignalHandler__ = function (obj, page, handlers) {
-  var handlerName = 'onError';
+phantom.__defineErrorSignalHandler__ = function(obj, page, handlers) {
+    var handlerName = 'onError';
 
-  Object.defineProperty(obj, handlerName, {
-    set: function (f) {
-      // Disconnect previous handler (if any)
-      var handlerObj = handlers[handlerName];
-      if (!!handlerObj && typeof handlerObj.callback === 'function' && typeof handlerObj.connector === 'function') {
-        try {
-          page.javaScriptErrorSent.disconnect(handlerObj.connector);
-        } catch (e) {}
-      }
+    Object.defineProperty(obj, handlerName, {
+        set: function (f) {
+            // Disconnect previous handler (if any)
+            var handlerObj = handlers[handlerName];
+            if (!!handlerObj && typeof handlerObj.callback === "function" && typeof handlerObj.connector === "function") {
+                try { page.javaScriptErrorSent.disconnect(handlerObj.connector); }
+                catch (e) { }
+            }
 
-      // Delete the previous handler
-      delete handlers[handlerName];
+            // Delete the previous handler
+            delete handlers[handlerName];
 
-      if (typeof f === 'function') {
-        var connector = function (message, lineNumber, source, stack) {
-          var revisedStack = JSON.parse(stack).map(function (item) {
-            return {
-              file: item.url,
-              line: item.lineNumber,
-              function: item.functionName
-            };
-          });
-          if (revisedStack.length == 0)
-            revisedStack = [{
-              file: source,
-              line: lineNumber
-            }];
+            if (typeof f === 'function') {
+                var connector = function (message, lineNumber, source, stack) {
+                    var revisedStack = [];
+                    if (stack) {
+                        revisedStack = JSON.parse(stack).map(function (item) {
+                            return { file: item.url, line: item.lineNumber, function: item.functionName };
+                        });
+                    }
+                    if (revisedStack.length == 0)
+                        revisedStack = [{ file: source, line: lineNumber }];
 
-          f(message, revisedStack);
-        };
-        // Store the new handler for reference
-        handlers[handlerName] = {
-          callback: f,
-          connector: connector
-        };
+                    f(message, revisedStack);
+                };
+                // Store the new handler for reference
+                handlers[handlerName] = {
+                    callback: f,
+                    connector: connector
+                };
 
-        page.javaScriptErrorSent.connect(connector);
-      }
-    },
-    get: function () {
-      var handlerObj = handlers[handlerName];
-      return (!!handlerObj && typeof handlerObj.callback === 'function' && typeof handlerObj.connector === 'function') ?
-        handlers[handlerName].callback :
-        undefined;
-    },
-    configurable: true
-  });
+                page.javaScriptErrorSent.connect(connector);
+            }
+        },
+        get: function () {
+            var handlerObj = handlers[handlerName];
+            return (!!handlerObj && typeof handlerObj.callback === "function" && typeof handlerObj.connector === "function") ?
+                handlers[handlerName].callback :
+                undefined;
+        },
+        configurable: true
+    });
 };
 
 (function () {
@@ -88,20 +83,18 @@ phantom.__defineErrorSignalHandler__ = function (obj, page, handlers) {
   phantom.__defineErrorSignalHandler__(phantom, phantom.page, handlers);
 })();
 
-// TODO: Make this output to STDERR
 phantom.defaultErrorHandler = function (message, stack) {
   console.log(message + '\n');
 
   stack.forEach(function (item) {
     var message = item.file + ':' + item.line;
     if (item['function'])
-      message += ' in ' + item['function'];
+      message += ' in ' + item['function']; // TODO >> /dev/stderra;
     console.log('  ' + message);
   });
 };
 
 phantom.onError = phantom.defaultErrorHandler;
-
 phantom.callback = function (callback) {
   var ret = phantom.createCallback();
   ret.called.connect(function (args) {
@@ -112,15 +105,15 @@ phantom.callback = function (callback) {
 };
 
 (function () {
-  // CommonJS module implementation follows
 
+  // CommonJS module implementation follows
   window.global = window;
-  // fs is loaded at the end, when everything is ready
+
+  // TODO Quiet loading of fs at the end, when everything is ready
   var fs;
   var cache = {};
   var paths = [];
-  // use getters to initialize lazily
-  // (for future, now both fs and system are loaded anyway)
+
   var nativeExports = {
     get fs() {
       return phantom.createFilesystem();
@@ -162,7 +155,7 @@ phantom.callback = function (callback) {
 
   function dirname(path) {
     var replaced = path.replace(/\/[^/]*\/?$/, '');
-    if (replaced == path) {
+    if (replaced === path) {
       replaced = '';
     }
     return replaced;
@@ -275,17 +268,7 @@ phantom.callback = function (callback) {
   Module.prototype._getRequire = function () {
     var self = this;
 
-    function require(request) {
-      return self.require(request);
-    }
-    require.cache = cache;
-    require.extensions = extensions;
-    require.paths = paths;
-    require.stub = function (request, exports) {
-      self.stubs[request] = {
-        exports: exports
-      };
-    };
+   };
 
     return require;
   };
@@ -327,7 +310,6 @@ phantom.callback = function (callback) {
     }
     cache[filename] = module;
     module._load();
-
     return module.exports;
   };
 

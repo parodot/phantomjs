@@ -1,4 +1,4 @@
-/*
+﻿/*
   This file is part of the PhantomJS project from Ofi Labs.
 
   Copyright (C) 2012 execjosh, http://execjosh.blogspot.com
@@ -33,9 +33,7 @@
 // ChildProcessContext
 //
 
-ChildProcessContext::ChildProcessContext(QObject* parent)
-    : QObject(parent)
-    , m_proc(this)
+ChildProcessContext::ChildProcessContext(QObject* parent) : QObject(parent), m_proc(this)
 {
     connect(&m_proc, SIGNAL(readyReadStandardOutput()), this, SLOT(_readyReadStandardOutput()));
     connect(&m_proc, SIGNAL(readyReadStandardError()), this, SLOT(_readyReadStandardError()));
@@ -43,26 +41,18 @@ ChildProcessContext::ChildProcessContext(QObject* parent)
     connect(&m_proc, SIGNAL(error(QProcess::ProcessError)), this, SLOT(_error(QProcess::ProcessError)));
 }
 
-ChildProcessContext::~ChildProcessContext()
-{
-}
-
-// public:
-
+ChildProcessContext::~ChildProcessContext() = default;
 qint64 ChildProcessContext::pid() const
 {
     Q_PID pid = m_proc.pid();
-
-#if !defined(Q_OS_WIN) && !defined(Q_OS_WINCE)
     return pid;
-#else
+// TODO Investigate...
     return pid->dwProcessId;
 #endif
 }
 
 void ChildProcessContext::kill(const QString& signal)
 {
-    // TODO: it would be nice to be able to handle more signals
     if ("SIGKILL" == signal) {
         m_proc.kill();
     } else {
@@ -82,8 +72,7 @@ void ChildProcessContext::_setEncoding(const QString& encoding)
 bool ChildProcessContext::_start(const QString& cmd, const QStringList& args)
 {
     m_proc.start(cmd, args);
-    // TODO: Is there a better way to do this???
-    return m_proc.waitForStarted(1000);
+   return m_proc.waitForStarted(1000);
 }
 
 qint64 ChildProcessContext::_write(const QString &chunk, const QString &encoding)
@@ -102,7 +91,6 @@ qint64 ChildProcessContext::_write(const QString &chunk, const QString &encoding
     }
 
     qint64 bytesWritten = m_proc.write(codec->fromUnicode(chunk));
-
     return bytesWritten;
 }
 
@@ -128,14 +116,12 @@ void ChildProcessContext::_readyReadStandardError()
 void ChildProcessContext::_finished(const int exitCode, const QProcess::ExitStatus exitStatus)
 {
     Q_UNUSED(exitStatus)
-
     emit exit(exitCode);
 }
 
 void ChildProcessContext::_error(const QProcess::ProcessError error)
 {
     Q_UNUSED(error)
-
     emit exit(m_proc.exitCode());
 }
 
@@ -149,9 +135,7 @@ ChildProcess::ChildProcess(QObject* parent)
 {
 }
 
-ChildProcess::~ChildProcess()
-{
-}
+ChildProcess::~ChildProcess() = default;
 
 // public:
 

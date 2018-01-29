@@ -1,4 +1,4 @@
-/*
+﻿/*
   This file is part of the PhantomJS project from Ofi Labs.
 
   Copyright (C) 2011 Ariya Hidayat <ariya.hidayat@gmail.com>
@@ -28,11 +28,9 @@
   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "terminal.h"
-
-#include <QCoreApplication>
-
 #include <iostream>
+#include <QCoreApplication>
+#include "terminal.h"
 
 static Terminal* terminal_instance = 0;
 

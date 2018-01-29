@@ -1,4 +1,4 @@
-/*
+﻿/*
   This file is part of the PhantomJS project from Ofi Labs.
 
   Copyright (C) 2012 execjosh, http://execjosh.blogspot.com
@@ -27,9 +27,6 @@
   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef ENV_H
-#define ENV_H
-
 #include <QObject>
 #include <QVariantMap>
 
@@ -44,8 +41,5 @@ public:
 
 private:
     Env();
-
     QVariantMap m_map;
 };
-
-#endif // ENV_H

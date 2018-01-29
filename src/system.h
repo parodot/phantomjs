@@ -1,4 +1,4 @@
-/*
+﻿/*
   This file is part of the PhantomJS project from Ofi Labs.
 
   Copyright (C) 2012 execjosh, http://execjosh.blogspot.com
@@ -28,15 +28,12 @@
   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef SYSTEM_H
-#define SYSTEM_H
-
+#pragma once
 #include <QApplication>
 #include <QObject>
 #include <QStringList>
 #include <QMap>
 #include <QVariant>
-
 #include "filesystem.h"
 
 // This class implements the CommonJS System/1.0 spec.
@@ -90,5 +87,3 @@ private:
     File* m_stderr;
     File* m_stdin;
 };
-
-#endif // SYSTEM_H

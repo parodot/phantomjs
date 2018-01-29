@@ -1,4 +1,4 @@
-/*
+﻿/*
   This file is part of the PhantomJS project from Ofi Labs.
 
   Copyright (C) 2011 Ivan De Marino <ivan.de.marino@gmail.com>
@@ -27,11 +27,9 @@
   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef REPL_H
-#define REPL_H
+#pragma once
 
 #include <QWebFrame>
-
 #include "phantom.h"
 
 // Linenoise is a C Library: we need to externalise it's symbols for linkage
@@ -57,7 +55,6 @@ class REPL: public QObject
 public:
     static bool instanceExists();
     static REPL* getInstance(QWebFrame* webframe = NULL, Phantom* parent = NULL);
-
     Q_INVOKABLE QString _getClassName(QObject* obj) const;
     Q_INVOKABLE QStringList _enumerateCompletions(QObject* obj) const;
 
@@ -75,5 +72,3 @@ private:
     bool m_looping;
     QByteArray m_historyFilepath;
 };
-
-#endif // REPL_H

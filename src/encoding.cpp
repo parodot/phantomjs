@@ -1,4 +1,4 @@
-/*
+﻿/*
   This file is part of the PhantomJS project from Ofi Labs.
 
   Copyright (C) 2011 Ariya Hidayat <ariya.hidayat@gmail.com>
@@ -38,7 +38,6 @@ Encoding::Encoding()
     if (!codec) {
         codec = QTextCodec::codecForLocale();
     }
-
     m_codec = codec;
 }
 
@@ -49,7 +48,7 @@ Encoding::Encoding(const QString& encoding)
 
 Encoding::~Encoding()
 {
-    m_codec = (QTextCodec*)NULL;
+    m_codec = Q_NULLPTR;
 }
 
 QString Encoding::decode(const QByteArray& bytes) const
@@ -64,7 +63,6 @@ QByteArray Encoding::encode(const QString& string) const
 
 QString Encoding::getName() const
 {
-    // TODO Is it safe to assume UTF-8 here?
     return QString::fromUtf8(getCodec()->name());
 }
 
@@ -81,8 +79,7 @@ void Encoding::setEncoding(const QString& encoding)
 
 const Encoding Encoding::UTF8 = Encoding("UTF-8");
 
-// private:
-QTextCodec* Encoding::getCodec() const
+private: QTextCodec* Encoding::getCodec() const
 {
     QTextCodec* codec = m_codec;
 
