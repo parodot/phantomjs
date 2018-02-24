@@ -16,11 +16,11 @@ qrc_*
 /debian/*.log
 /debian/*.substvars
 /debian/*/
-/deploy/qt-*.tar.gz
-/deploy/Qt-*
 /symbols
 /src/qt/qtc-debugging-helper
 /src/phantomjs_plugin_import.cpp
+/*.docx
+/*.pdf
 
 # ignore ctags
 /tags
@@ -59,6 +59,7 @@ qrc_*
 [Rr]elease/
 bin/
 *.class
-build/
 .gradle/
 /.vs
+.vscode
+.code9
